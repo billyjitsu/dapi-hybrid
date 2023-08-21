@@ -4,7 +4,7 @@ pragma solidity 0.8.19;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@api3/contracts/v0.8/interfaces/IProxy.sol";
 
-contract Stable is Ownable {
+contract PriceFeed is Ownable {
 
     address public proxyAddress;
 
