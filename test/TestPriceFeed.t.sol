@@ -9,29 +9,27 @@ import {Test, console} from "forge-std/Test.sol";
 
 contract TestPriceFee is Test {
     PriceFeed public priceFeed;
+    MockDapiProxy public mockDapi;
 
     function setUp() external {
         DeployPriceFeed deployer = new DeployPriceFeed();
-        priceFeed = deployer.run();
+        (mockDapi, priceFeed) = deployer.run();
+    }
+    
+    function testOwner() public {
+        console.log("PriceFeed owner: %s", address(priceFeed.owner()));
+        console.log("Msg sender: %s", address(msg.sender));
+        assertEq(priceFeed.owner(), msg.sender);
     }
 
-    function testStoreNumber() public {
-        // Arrange
-        uint256 expectedFavoiteNumber = 777;
-        // Act
-        priceFeed.store(expectedFavoiteNumber);
-        // Assert
-        assert(expectedFavoiteNumber == priceFeed.retrieve());
+    function testPriceFeed() public {
+       mockDapi.setDapiValues(100, 100);
+       priceFeed.setProxyAddress(address(mockDapi));
+        // console.log("PriceFeed proxyAddress: %s", address(priceFeed.proxyAddress()));
+        // console.log("PriceFeed readDataFeed: %s", priceFeed.readDataFeed());
+        // console.log("PriceFeed readDataFeed: %s", priceFeed.readDataFeed());
+      // assertEq(priceFeed.readDataFeed(), (100, 100));
     }
 
-    function testCreatePerson() public {
-        // Arrange
-        string memory name = "Jon";
-        uint256 expectedNumber = 25;
-        // Act
-        simpleStorage.addPerson(name, expectedNumber);
-        // Assert
-        uint256 retreievedNumber = simpleStorage.nameToFavoriteNumber(name);
-        assert(retreievedNumber == expectedNumber);
-    }
+
 }
