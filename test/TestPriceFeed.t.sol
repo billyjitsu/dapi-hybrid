@@ -7,6 +7,7 @@ import {MockDapiProxy} from "../contracts/Mocks/MockDapi.sol";
 import {DeployPriceFeed} from "../scripts/DeployPriceFeed.s.sol";
 import {Test, console} from "forge-std/Test.sol";
 
+
 contract TestPriceFee is Test {
     PriceFeed public priceFeed;
     MockDapiProxy public mockDapi;
@@ -23,12 +24,21 @@ contract TestPriceFee is Test {
     }
 
     function testPriceFeed() public {
-       mockDapi.setDapiValues(100, 100);
-       priceFeed.setProxyAddress(address(mockDapi));
-        // console.log("PriceFeed proxyAddress: %s", address(priceFeed.proxyAddress()));
-        // console.log("PriceFeed readDataFeed: %s", priceFeed.readDataFeed());
-        // console.log("PriceFeed readDataFeed: %s", priceFeed.readDataFeed());
-      // assertEq(priceFeed.readDataFeed(), (100, 100));
+        // starting Prank ALL subsequent calls will come from msg.sender
+        int224 price = 100e18;
+        uint256 expectedValue = 100e18;
+        vm.startPrank(msg.sender);
+        vm.warp(1692843154);
+        mockDapi.setDapiValues(price, uint32(block.timestamp));
+        // mockDapi.setDapiValues(100, 100);
+        priceFeed.setProxyAddress(address(mockDapi));
+        vm.stopPrank();
+        (uint a, uint b) = priceFeed.readDataFeed();
+        console.log("PriceFeed Value", a);
+        console.log("PriceFeed Timestamp", b);
+       
+        assertEq(expectedValue, a);
+        assertEq(b, uint32(block.timestamp));
     }
 
 
