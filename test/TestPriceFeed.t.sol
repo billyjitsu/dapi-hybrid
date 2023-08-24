@@ -17,20 +17,21 @@ contract TestPriceFee is Test {
         (mockDapi, priceFeed) = deployer.run();
     }
     
+    /* to see logs "forge test -vv" for more tracing add more v's */
     function testOwner() public {
-        console.log("PriceFeed owner: %s", address(priceFeed.owner()));
-        console.log("Msg sender: %s", address(msg.sender));
+        // console.log("PriceFeed owner: %s", address(priceFeed.owner()));
+        // console.log("Msg sender: %s", address(msg.sender));
         assertEq(priceFeed.owner(), msg.sender);
     }
 
     function testPriceFeed() public {
-        // starting Prank ALL subsequent calls will come from msg.sender
         int224 price = 100e18;
         uint256 expectedValue = 100e18;
+        // starting Prank ALL subsequent calls will come from msg.sender
         vm.startPrank(msg.sender);
+        // setting a block time
         vm.warp(1692843154);
         mockDapi.setDapiValues(price, uint32(block.timestamp));
-        // mockDapi.setDapiValues(100, 100);
         priceFeed.setProxyAddress(address(mockDapi));
         vm.stopPrank();
         (uint a, uint b) = priceFeed.readDataFeed();

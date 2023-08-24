@@ -37,7 +37,7 @@ import {
       //Set our mock Proxy address that will return static values
       await tokenEx.setProxyAddress(mockDapi.getAddress());
   
-      return { tokenEx, owner, otherAccount, mockDapi };
+      return { tokenEx, owner, otherAccount, mockDapi, timestamp };
     }
   
     describe("Deployment", function () {
@@ -49,7 +49,7 @@ import {
   
     describe("Set Price Feed", function () {
       it("Only we can set the price feed and read", async function () {
-        const { tokenEx, owner, otherAccount, mockDapi } = await loadFixture(deployBefore);
+        const { tokenEx, owner, otherAccount, mockDapi, timestamp } = await loadFixture(deployBefore);
         await expect(tokenEx.connect(otherAccount).setProxyAddress('0x13d1Ed8c24911d88e6155cE32A66908399C97924')).to.be.revertedWith('Ownable: caller is not the owner');
         await tokenEx.setProxyAddress(mockDapi.getAddress());
 
@@ -57,6 +57,8 @@ import {
         //verify our mock values are set
         console.log("Price: ", price.toString());
         console.log("Time: ", time.toString());
+        expect(price).to.equal(ethers.parseEther("1000"));
+        expect(time).to.equal(await timestamp);
       });
     });
     
