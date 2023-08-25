@@ -41,6 +41,4 @@ contract TestPriceFee is Test {
         assertEq(expectedValue, a);
         assertEq(b, uint32(block.timestamp));
     }
-
-
 }

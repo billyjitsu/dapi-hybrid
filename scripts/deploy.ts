@@ -13,7 +13,7 @@ async function main() {
 
   console.log(
     `PriceFeed contract address: ${pricefeed.target}
-Polygonscan link: https://testnet-zkevm.polygonscan.com/address/${tokenEx.target}`
+Polygonscan link: https://testnet-zkevm.polygonscan.com/address/${pricefeed.target}`
   );
 }
 

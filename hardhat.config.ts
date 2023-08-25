@@ -49,13 +49,33 @@ const config: HardhatUserConfig = {
       accounts: [`${process.env.PRIVATE_KEY}`],
       gas: 200000000,
       gasPrice: 100000000000,
-    }
+    },
+    mantletestnet: {
+      url: "https://rpc.testnet.mantle.xyz/",
+      accounts: [`${process.env.PRIVATE_KEY}`],
+    },
+    polygonZKEVMTestnet: {
+      url: `https://rpc.public.zkevm-test.net`,
+      accounts: [`${process.env.PRIVATE_KEY}`],
+    },
   
   },
   etherscan: {
   // Your API key for Etherscan
   // Obtain one at https://etherscan.io/
-  apiKey: process.env.ETHERSCAN_API_KEY
+  
+  apiKey: {polygon: process.env.POLYGON_ETHERSCAN_API_KEY || "", mumbai: process.env.POLYGON_ETHERSCAN_API_KEY || "" , goerli: process.env.ETHERSCAN_API_KEY || "", polygonZKEVMTestnet: process.env.POLYGON_ETHERSCAN_API_KEY ||""},
+  
+  customChains: [
+    {
+      network: "polygonZKEVMTestnet",
+      chainId: 1442,
+      urls: {
+        apiURL: "https://api-testnet-zkevm.polygonscan.com/api",
+        browserURL: "https://testnet-zkevm.polygonscan.com/",
+      },
+  }
+],
   }
   };
   
