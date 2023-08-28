@@ -15,3 +15,7 @@ contract DeployPriceFeed is Script {
         return (mockDapiProxy, priceFeed);
     }
 }
+
+
+// Deployment line direct
+//forge create --rpc-url $env:MUMBAI_RPC_URL --private-key $env:PRIVATE_KEY --etherscan-api-key $env:POLYGON_ETHERSCAN_API_KEY --verify  contracts/PriceFeed.sol:PriceFeed 

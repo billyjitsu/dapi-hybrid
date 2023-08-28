@@ -8,7 +8,7 @@ import {DeployPriceFeed} from "../scripts/DeployPriceFeed.s.sol";
 import {Test, console} from "forge-std/Test.sol";
 
 
-contract TestPriceFee is Test {
+contract TestPriceFeed is Test {
     PriceFeed public priceFeed;
     MockDapiProxy public mockDapi;
 
@@ -27,6 +27,9 @@ contract TestPriceFee is Test {
     function testPriceFeed() public {
         int224 price = 100e18;
         uint256 expectedValue = 100e18;
+        // Make sure only owner can set proxy address
+        vm.expectRevert();
+        priceFeed.setProxyAddress(address(mockDapi));
         // starting Prank ALL subsequent calls will come from msg.sender
         vm.startPrank(msg.sender);
         // setting a block time

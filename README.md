@@ -1,13 +1,66 @@
-# Sample Hardhat Project
+# Hardhat-Foundry Hybrid Framework
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+## Best of Both Worlds
 
-Try running some of the following tasks:
+This framework allows you to use the deploying toolset from the Hardhat library along with the testing suites from Foundry.
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+## Getting Started
+
+### Setting up Hardhat
+
+Add Hardhat to your dev dependencies:
+
+```bash
+yarn add --dev hardhat
 ```
+
+### Integrating Foundry
+
+Once you've set up Hardhat, install the Hardhat-Foundry plugin:
+
+```bash
+yarn add --dev @nomicfoundation/hardhat-foundry
+```
+
+Then, add the following line to your `hardhat.config.ts` file:
+
+```typescript
+import "@nomicfoundation/hardhat-foundry";
+```
+
+### Initialize Foundry
+
+With those requirements in place, initialize Foundry:
+
+```bash
+npx hardhat init-foundry
+```
+
+## Usage
+
+Now you can use both Hardhat and Foundry tools:
+
+### Commands Comparison Table
+
+| Task                         | Hardhat Command                 | Forge Command                |
+| ---------------------------- | ------------------------------- | ---------------------------- |
+| Compile Contracts            | `npx hardhat compile`           | `Forge build`                          |
+| Run Tests                    | `npx hardhat test`              | `Forge test (-vv) options`           |
+| Add OpenZeppelin Contracts   | `yarn add @openzeppelin/contracts` | `forge install OpenZeppelin/openzeppelin-contracts --no-commit` |
+| Run Deployment Script        | `npx hardhat run scripts/deploy.ts` |`see Forge Deploy Example`                         |
+| Launch Node                  | `npx hardhat node`              | `Anvil`                          |
+|
+| Deploy Contracts             | Custom Hardhat script           | See Forge Deploy Example Below|
+
+#### Forge Deploy Example
+
+```bash
+forge create --rpc-url <your_rpc_url> \
+    --constructor-args <args> \
+    --private-key <your_private_key> \
+    --etherscan-api-key <your_etherscan_api_key> \
+    --verify \
+    src/ContractName.sol:NameOfContract
+```
+
+(Additional information or usage guide for Anvil can be added here)

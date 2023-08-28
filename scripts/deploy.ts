@@ -1,4 +1,4 @@
-import { ethers } from "hardhat";
+import { ethers, run } from "hardhat";
 
 async function main() {
   // The old way of deploying contracts
@@ -12,9 +12,19 @@ async function main() {
   await pricefeed.waitForDeployment();
 
   console.log(
-    `PriceFeed contract address: ${pricefeed.target}
-Polygonscan link: https://testnet-zkevm.polygonscan.com/address/${pricefeed.target}`
+    `PriceFeed contract address: ${pricefeed.target}`
   );
+
+  console.log("Verifying contract...");
+
+  // Wait for a few confirmations before verifying
+  await new Promise(resolve => setTimeout(resolve, 60000));
+
+  // Verify contract
+  await run("verify:verify", {
+    address: pricefeed.target,
+    constructorArguments: [],
+  });
 }
 
 // We recommend this pattern to be able to use async/await everywhere
