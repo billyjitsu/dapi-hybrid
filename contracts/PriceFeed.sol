@@ -12,6 +12,7 @@ contract PriceFeed is Ownable {
 
     // Updating the proxy contract address is a security-critical
     // action. In this example, only the owner is allowed to do so.
+    // Get your pricefeed at https://market.api3.org/dapis
     function setProxyAddress(address _proxyAddress) public onlyOwner {
         proxyAddress = _proxyAddress;
     }
