@@ -4,9 +4,43 @@
 
 This framework allows you to use the deploying toolset from the Hardhat library along with the testing suites from Foundry.
 
+https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-foundry
+
 ## Getting Started
 
-### Setting up Hardhat
+### Starting with Foundry
+
+Add Hardhat to your dev dependencies:
+
+```bash
+forge init
+```
+
+### Integrating Hardhat
+You will need to init a package.json:
+
+```bash
+yarn init -y
+```
+Then install hardhat:
+
+```bash
+yarn add -D hardhat
+```
+
+Once you've set up Hardhat, install the Hardhat-Foundry plugin:
+
+```bash
+yarn add --dev @nomicfoundation/hardhat-foundry
+```
+
+Then, add the following line to your `hardhat.config.ts` file:
+
+```typescript
+import "@nomicfoundation/hardhat-foundry";
+```
+
+### Starting with Hardhat
 
 Add Hardhat to your dev dependencies:
 
